@@ -22,7 +22,6 @@
         <tr>
             <th>Contacted</th>
             <th>Uploader</th>
-            <th>LP ID</th>
             <th>Active</th>
             <th>Total Uploads</th>
             <th>Dates Active</th>
@@ -30,15 +29,12 @@
         {% for i in output|dictsortreversed:"p.first_upload.timestamp" %}
             {% if 'saucy' in i.p.first_upload.release %}
             <tr class='{{ i.color }}'>
-                <td>{% if i.p|recent_contact %}
+                <td>{% if i.p.contacted %}
                         <center>✓</center>
                     {% endif %}
                 </td>
-                <td><a href="{{ i.p.lpid }}">{{ i.p.name }}</a></td>
-                <td>
-                    <a href="http://launchpad.net/~{{ i.p.lpid }}">
-                    {{ i.p.lpid }}</a>
-                </td>
+                <td><a href="{{ i.p.email }}">{{ i.p.name }}</a></td>
+
                 <td>{{ i.p.is_active|yesno:"Yes,No" }}</td>
                 <td>{{ i.p.total_uploads }}</td>
                 {% if i.p.first_upload.timestamp == i.p.last_upload.timestamp %}
@@ -61,7 +57,6 @@
         <tr>
             <th>Contacted</th>
             <th>Uploader</th>
-            <th>LP ID</th>
             <th>Active</th>
             <th>Total Uploads</th>
             <th>Dates Active</th>
@@ -70,15 +65,11 @@
         {% for i in output|dictsortreversed:"p.first_upload.timestamp" %}
             {% if 'raring' in i.p.first_upload.release %}
             <tr class='{{ i.color }}'>
-                <td>{% if i.p|recent_contact %}
+                <td>{% if i.p.contacted %}
                         <center>✓</center>
                     {% endif %}
                 </td>
-                <td><a href="{{ i.p.lpid }}">{{ i.p.name }}</a></td>
-                <td>
-                    <a href="http://launchpad.net/~{{ i.p.lpid }}">
-                    {{ i.p.lpid }}</a>
-                </td>
+                <td><a href="{{ i.p.email }}">{{ i.p.name }}</a></td>
                 <td>{{ i.p.is_active|yesno:"Yes,No" }}</td>
                 <td>{{ i.p.total_uploads }}</td>
                 {% if i.p.first_upload.timestamp == i.p.last_upload.timestamp %}
@@ -102,7 +93,6 @@
         <tr>
             <th>Contacted</th>
             <th>Uploader</th>
-            <th>LP ID</th>
             <th>Active</th>
             <th>Total Uploads</th>
             <th>Dates Active</th>
@@ -110,15 +100,11 @@
         {% for i in output|dictsortreversed:"p.first_upload.timestamp" %}
             {% if 'quantal' in i.p.first_upload.release %}
             <tr class='{{ i.color }}'>
-                <td>{% if i.p|recent_contact %}
+                <td>{% if i.p.contacted %}
                         <center>✓</center>
                     {% endif %}
                 </td>
-                <td><a href="{{ i.p.lpid }}">{{ i.p.name }}</a></td>
-                <td>
-                    <a href="http://launchpad.net/~{{ i.p.lpid }}">
-                    {{ i.p.lpid }}</a>
-                </td>
+                <td><a href="{{ i.p.email }}">{{ i.p.name }}</a></td>
                 <td>{{ i.p.is_active|yesno:"Yes,No" }}</td>
                 <td>{{ i.p.total_uploads }}</td>
                 {% if i.p.first_upload.timestamp == i.p.last_upload.timestamp %}
@@ -142,7 +128,6 @@
         <tr>
             <th>Contacted</th>
             <th>Uploader</th>
-            <th>LP ID</th>
             <th>Active</th>
             <th>Total Uploads</th>
             <th>Dates Active</th>
@@ -150,15 +135,11 @@
         {% for i in output|dictsortreversed:"p.first_upload.timestamp" %}
             {% if 'precise' in i.p.first_upload.release %}
             <tr class='{{ i.color }}'>
-                <td>{% if i.p|recent_contact %}
+                <td>{% if i.p.contacted %}
                         <center>✓</center>
                     {% endif %}
                 </td>
-                <td><a href="{{ i.p.lpid }}">{{ i.p.name }}</a></td>
-                <td>
-                    <a href="http://launchpad.net/~{{ i.p.lpid }}">
-                    {{ i.p.lpid }}</a>
-                </td>
+                <td><a href="{{ i.p.email }}">{{ i.p.name }}</a></td>
                 <td>{{ i.p.is_active|yesno:"Yes,No" }}</td>
                 <td>{{ i.p.total_uploads }}</td>
                 {% if i.p.first_upload.timestamp == i.p.last_upload.timestamp %}

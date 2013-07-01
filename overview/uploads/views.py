@@ -41,11 +41,11 @@ def first_timers(request):
 
 
 @group_perm_required()
-def person_detail(request, lpid):
-    person = get_object_or_404(People, lpid=lpid)
-    uploads = Uploads.objects.filter(lpid_changer=lpid)
+def person_detail(request, email):
+    person = get_object_or_404(People, email=email)
+    uploads = Uploads.objects.filter(email_changer=email)
     recent_uploads = uploads.order_by('timestamp').reverse()[0:10]
-    uploads_per_release = get_uploads_per_release(lpid)
+    uploads_per_release = get_uploads_per_release(email)
     ppu_candidates = get_ppu_candidates(uploads)
     if request.method == 'POST':
         if 'save_notes' in request.POST:
@@ -70,7 +70,7 @@ def person_detail(request, lpid):
 
 def get_ppu_candidates(uploads):
     """
-    Takes an Uploads object filtered by lpid_changer and returns
+    Takes an Uploads object filtered by email_changer and returns
     a list of package that were uploaded by a contributor more than
     five times.
     """
@@ -85,38 +85,38 @@ def get_ppu_candidates(uploads):
     return ppu_candidates
 
 
-def get_uploads_per_release(lpid):
+def get_uploads_per_release(email):
     """
-    Takes an lpid and returns an ordered dict of uploads per release.
+    Takes an email and returns an ordered dict of uploads per release.
     """
     uploads_per_release = OrderedDict([])
     for d in UbuntuDistroInfo().all:
         release_uploads = len(Uploads.objects.filter(
-            lpid_changer=lpid).filter(release__icontains=d))
+            email_changer=email).filter(release__icontains=d))
         if uploads_per_release or release_uploads > 0:
             uploads_per_release[d] = release_uploads
     return uploads_per_release
 
 
 @group_perm_required()
-def edit_person(request, lpid):
-    person = get_object_or_404(People, lpid=lpid)
+def edit_person(request, email):
+    person = get_object_or_404(People, email=email)
     if request.method == 'POST':
         person_form = EditContrib(request.POST)
         if person_form.is_valid():
-            new_lpid = person_form.cleaned_data['lpid']
+            new_email = person_form.cleaned_data['email']
             person.email = person_form.cleaned_data['email']
-            person.lpid = new_lpid
+            person.email = new_email
             person.save()
-            if lpid is not new_lpid:
-                uploads = Uploads.objects.filter(lpid_changer=lpid)
-                uploads.update(lpid_changer=new_lpid)
+            if email is not new_email:
+                uploads = Uploads.objects.filter(email_changer=email)
+                uploads.update(email_changer=new_email)
             change_message = "Updated %s's details." % person.name
             log_action(person, change_message, request.user.pk)
             messages.success(request, 'Change successfully saved...')
-            return HttpResponseRedirect('/contributors/{}'.format(new_lpid))
+            return HttpResponseRedirect('/contributors/{}'.format(new_email))
     else:
-        person_form = EditContrib(initial={'lpid': lpid,
+        person_form = EditContrib(initial={'email': email,
                                            'email': person.email})
     return render(request, 'edit_person.html', {'person': person,
                                                 'person_form': person_form})
@@ -151,14 +151,14 @@ def potential_devs(request):
     potential_devs = []
     cutoff_upload = {}
     six_months = timezone.now() - timedelta(days=6 * 30)
-    for p in People.objects.filter(ubuntu_dev=False
+    for p in People.objects.filter(debian_dev=False
                           ).filter(total_uploads__gte=40
                           ).filter(is_active=True
                           ).prefetch_related("first_upload"
                           ).prefetch_related("last_upload"
                           ).filter(first_upload__timestamp__lte=six_months):
-            uploads = Uploads.objects.filter(lpid_changer=p.lpid)
-            p.fortieth = uploads.order_by("timestamp")[39].timestamp
+            uploads = Uploads.objects.filter(email_changer=p.email)
+            #p.fortieth = uploads.order_by("timestamp")[39].timestamp
             potential_devs += [p]
     return render(request, 'potential_devs.html',
                   {'potential_devs': potential_devs,
@@ -170,7 +170,7 @@ def log_action(object, change_message, user):
         user_id=user,
         content_type_id=ContentType.objects.get_for_model(object).pk,
         object_id=object.pk,
-        object_repr=object.lpid,
+        object_repr=object.email,
         change_message=change_message,
         action_flag=ADDITION
     )
@@ -219,7 +219,7 @@ def dashboard():
                                 ).select_related('contacts'
                                 ).order_by('last_upload__timestamp').reverse()
     first_timers_qs = people.filter(first_upload__timestamp__gte=three_months)
-    experienced_qs = people.filter(ubuntu_dev=False
+    experienced_qs = people.filter(debian_dev=False
                           ).filter(total_uploads__gte=40
                           ).filter(is_active=True)
     inactive_qs = people.filter(last_upload__timestamp__gt=one_year
@@ -234,7 +234,7 @@ def dashboard():
         else:
             recent_c = None
         if (len(experienced) < 20 and (recent_c is None or
-            recent_c < Uploads.objects.filter(lpid_changer=p.lpid
+            recent_c < Uploads.objects.filter(email_changer=p.email
                                      ).order_by("timestamp"
                                      )[39].timestamp)):
             experienced.append(p)

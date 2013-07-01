@@ -22,7 +22,7 @@
         <td>{% if p|recent_contact > p.fortieth %}
             <center>✓</center>{% endif %}
         </td>
-        <td><a href="{{ p.lpid }}">{{ p.name }}</a></td>
+        <td><a href="{{ p.email }}">{{ p.name }}</a></td>
         <td>{{ p.total_uploads }}</td>
         <td>{{ p.first_upload.timestamp|date:"SHORT_DATE_FORMAT" }} to {{ p.last_upload.timestamp|date:"SHORT_DATE_FORMAT" }}</td>
     </tr>

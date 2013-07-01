@@ -22,7 +22,7 @@
             <center>✓</center>{% endif %}
         </td>
         <td>
-            <a href="{{ p.lpid }}">{{ p.name }}</a>{% ubu_dev_img p.ubuntu_dev %}
+            <a href="{{ p.email }}">{{ p.name }}</a>{% ubu_dev_img p.ubuntu_dev %}
         </td>
         <td>{{ p.last_upload.timestamp|date:"SHORT_DATE_FORMAT" }}</td>
         <td><center>{{ p.total_uploads }}</center></td>

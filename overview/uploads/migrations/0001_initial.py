@@ -20,6 +20,7 @@ class Migration(SchemaMigration):
             ('last_upload', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['uploads.Uploads'])),
             ('ubuntu_dev', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('notes', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('contacted', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'uploads', ['People'])
 
@@ -125,6 +126,7 @@ class Migration(SchemaMigration):
         },
         u'uploads.people': {
             'Meta': {'object_name': 'People', 'db_table': "u'people'"},
+            'contacted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'email': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'first_upload': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'to': u"orm['uploads.Uploads']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -137,11 +139,10 @@ class Migration(SchemaMigration):
             'ubuntu_dev': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'uploads.udd': {
-            'Meta': {'unique_together': "(('source', 'version'),)", 'object_name': 'UDD', 'db_table': "u'ubuntu_upload_history'", 'managed': 'False'},
+            'Meta': {'unique_together': "(('source', 'version'),)", 'object_name': 'UDD', 'db_table': "u'uploa_history'", 'managed': 'False'},
             'changed_by': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'changed_by_email': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'changed_by_name': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'component': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'date': ('django.db.models.fields.DateTimeField', [], {'primary_key': 'True'}),
             'distribution': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'file': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
@@ -151,9 +152,6 @@ class Migration(SchemaMigration):
             'maintainer_email': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'maintainer_name': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'nmu': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
-            'original_maintainer': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'original_maintainer_email': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'original_maintainer_name': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'signed_by': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'signed_by_email': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'signed_by_name': ('django.db.models.fields.TextField', [], {'blank': 'True'}),

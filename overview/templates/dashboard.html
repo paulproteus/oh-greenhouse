@@ -10,7 +10,7 @@
     <h3>First timers:</h3>
 
     {% for p in first_timers|dictsortreversed:"first_upload.timestamp" %}
-        <li><a href="contributors/{{ p.lpid }}">{{ p.name }}</a>, {{ p.first_upload.timestamp|date:"SHORT_DATE_FORMAT" }}</li>
+        <li><a href="contributors/{{ p.email }}">{{ p.name }}</a>, {{ p.first_upload.timestamp|date:"SHORT_DATE_FORMAT" }}</li>
     {% endfor %}
 
 </div>
@@ -20,7 +20,7 @@
     <h3>Experienced:</h3>
 
     {% for p in experienced|dictsortreversed:"last_upload.timestamp" %}
-        <li><a href="contributors/{{ p.lpid }}">{{ p.name }}</a>, {{ p.total_uploads }} uploads</li>
+        <li><a href="contributors/{{ p.email }}">{{ p.name }}</a>, {{ p.total_uploads }} uploads</li>
     {% endfor %}
 
 </div>
@@ -30,7 +30,7 @@
     <h3>Inactive:</h3>
 
     {% for p in inactive|dictsortreversed:"last_upload.timestamp" %}
-        <li><a href="contributors/{{ p.lpid }}">{{ p.name }}</a>  <b>{% ubu_dev_img p.ubuntu_dev %}</b>, {{ p.last_upload.timestamp|date:"SHORT_DATE_FORMAT" }}</li>
+        <li><a href="contributors/{{ p.email }}">{{ p.name }}</a>  <b>{% ubu_dev_img p.ubuntu_dev %}</b>, {{ p.last_upload.timestamp|date:"SHORT_DATE_FORMAT" }}</li>
     {% endfor %}
 
 </div>

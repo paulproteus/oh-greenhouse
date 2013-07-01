@@ -11,7 +11,7 @@ class Command(NoArgsCommand):
         cursor = connections['udd'].cursor()
         sql = """SELECT date, distribution, source, version, changed_by_name,
                  changed_by_email, signed_by_name, signed_by_email
-                 FROM ubuntu_upload_history ORDER BY date"""
+                 FROM upload_history ORDER BY date"""
         cursor.execute(sql)
         bulk_insert = []
         try:
@@ -30,8 +30,7 @@ class Command(NoArgsCommand):
                 uploads = Uploads(timestamp=row[0], release=row[1],
                                   package=row[2], version=row[3],
                                   name_changer=row[4], email_changer=row[5],
-                                  name_sponsor=spon_name, email_sponsor=spon_email,
-                                  lpid_changer='' ,lpid_sponsor='')
+                                  name_sponsor=spon_name, email_sponsor=spon_email,)
                 bulk_insert.append(uploads)
         Uploads.objects.bulk_create(bulk_insert)
 
@@ -42,7 +41,7 @@ class Command(NoArgsCommand):
                                                      flat=True).distinct()
         for e in changer_emails:
             uploads = Uploads.objects.filter(email_changer=e)
-            if uploads[0].lpid_changer == '' and (uploads[0].email_changer not in ('', 'N/A')):
+            if uploads[0].email_changer == '' and (uploads[0].email_changer not in ('', 'N/A')):
                 lpid = self.email_to_lp(e)
                 if lpid != '':
                     for ul in uploads.filter(lpid_changer=''):
@@ -80,4 +79,4 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         self.import_uploads()
-        self.add_lpids()
+        #self.add_lpids()

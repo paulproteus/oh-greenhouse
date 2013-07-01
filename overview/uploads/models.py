@@ -20,28 +20,23 @@ class UDD(models.Model):
     signed_by_email = models.TextField(blank=True)
     key_id = models.TextField(blank=True)
     distribution = models.TextField(blank=True)
-    component = models.TextField(blank=True)
     file = models.TextField(blank=True)
     fingerprint = models.TextField(blank=True)
-    original_maintainer = models.TextField(blank=True)
-    original_maintainer_name = models.TextField(blank=True)
-    original_maintainer_email = models.TextField(blank=True)
 
     class Meta:
-        db_table = u'ubuntu_upload_history'
+        db_table = u'upload_history'
         unique_together = ('source', 'version')
         managed = False
 
 class People(models.Model):
     connection_name='default'
     name = models.TextField(blank=True)
-    email = models.TextField(blank=True)
-    lpid = models.TextField(blank=True, unique=True)
+    email = models.TextField(blank=True, unique=True)
     first_upload = models.ForeignKey('Uploads', related_name='+')
     is_active = models.BooleanField(default=False)
     total_uploads = models.IntegerField(blank=True, default=0)
     last_upload = models.ForeignKey('Uploads', related_name='+')
-    ubuntu_dev = models.BooleanField(default=False)
+    debian_dev = models.BooleanField(default=False)
     notes = models.TextField(blank=True)
     contacts = generic.GenericRelation(Comment, object_id_field="object_pk")
     contacted = models.BooleanField(default=False)
@@ -59,8 +54,6 @@ class Uploads(models.Model):
     email_changer = models.TextField(blank=True)
     name_sponsor = models.TextField(blank=True)
     email_sponsor = models.TextField(blank=True)
-    lpid_changer = models.TextField(blank=True)
-    lpid_sponsor = models.TextField(blank=True)
 
     class Meta:
         db_table = u'uploads'

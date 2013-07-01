@@ -42,8 +42,8 @@
 <div class='main'>
 <div id='person_details'>
     <ul>
-        <li><b>Launchpad:</b> <a href="http://launchpad.net/~{{ person.lpid }}">{{ person.lpid }} <a href="{{ person.lpid }}/edit"><img src="{{ MEDIA_URL }}/img/edit.png" alt="Edit"></a></a>
-        <li><b>Email:</b> <a href="mailto:{{ person.email }}"> {{ person.email }} <a href="{{ person.lpid }}/edit"><img src="{{ MEDIA_URL }}/img/edit.png" alt="Edit"></a></a></li>
+
+        <li><b>Email:</b> <a href="mailto:{{ person.email }}"> {{ person.email }}</a></li>
         <li><b>Ubuntu Developer:</b> {{ person.ubuntu_dev|yesno:"Yes,No" }}</li>
         <li><b>Active:</b> {{ person.is_active|yesno:"Yes,No" }}</li>
         <li><b>Last Seen:</b> {{ person.last_upload.timestamp }}</li>

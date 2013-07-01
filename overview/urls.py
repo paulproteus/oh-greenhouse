@@ -24,8 +24,8 @@ urlpatterns = patterns('',
     url(r'^contributors/recent_contributors', views.recent_contributors, name='recent_contributors'),
     url(r'^contributors/lost_contributors', views.lost_contributors, name='lost_contributors'),
     url(r'^contributors/potential_devs', views.potential_devs, name='potential_devs'),
-    url(r'^contributors/(?P<lpid>.+)/edit', views.edit_person, name='edit_person'),
-    url(r'^contributors/(?P<lpid>.+)', views.person_detail, name='person_detail'),
+    url(r'^contributors/(?P<email>.+)/edit', views.edit_person, name='edit_person'),
+    url(r'^contributors/(?P<email>.+)', views.person_detail, name='person_detail'),
     url(r'^users/(?P<user>.+)', views.user_profile, name='user_profile'),
     url(r'^comments/', include('django.contrib.comments.urls'))
 )
