@@ -7,14 +7,14 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        for a in orm.Activity.objects.all():
+        for a in orm['greenhouse.Activity'].objects.all():
             package, version = a.subproject.split()
             a.subproject = package
             a.version = version
             a.save()
 
     def backwards(self, orm):
-        for a in orm.Activity.objects.all():
+        for a in orm['greenhouse.Activity'].objects.all():
             a.subproject = a.subproject + " " + a.version
             a.version = ""
             a.save()
