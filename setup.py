@@ -27,7 +27,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         ],
     install_requires=[
-        'Django >= 1.3',
+        'Django >= 1.3,< 1.6',
         'psycopg2',
         'south',
         'launchpadlib',
