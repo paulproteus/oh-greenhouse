@@ -184,6 +184,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'greenhouse',
+    'uploads',
     'south',
     'django_openid_auth',
 )
