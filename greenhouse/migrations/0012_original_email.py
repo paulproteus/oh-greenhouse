@@ -11,10 +11,10 @@ class Migration(DataMigration):
         # Note: Don't use "from appname.models import ModelName". 
         # Use orm.ModelName to refer to models in this application,
         # and orm['appname.ModelName'] for models in other applications.
-        for person in orm.People.objects.all():
+        for person in orm['uploads.People'].objects.all():
             person.original_email = person.email
             person.save()
-        for upload in orm.Uploads.objects.all():
+        for upload in orm['uploads.Uploads'].objects.all():
             upload.original_email_changer = upload.email_changer
             upload.save()
             
