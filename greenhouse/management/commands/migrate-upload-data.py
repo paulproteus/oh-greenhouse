@@ -39,6 +39,7 @@ class Command(NoArgsCommand):
                                 authoritative_person=None
                                 )
                 bulk_insert_person.append(person)
+                person_set.add(email)
         Person.objects.bulk_create(bulk_insert_person)
 
 

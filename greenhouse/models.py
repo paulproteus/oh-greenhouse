@@ -33,7 +33,7 @@ class UDD(models.Model):
 class Person(models.Model):
     connection_name = 'default'
     name = models.TextField(blank=True)
-    email = models.EmailField(db_index=True)
+    email = models.EmailField(db_index=True, unique=True)
     exclude = models.BooleanField(default=False)
     notes = models.TextField(blank=True)
     contacts = generic.GenericRelation(Comment, object_id_field="object_pk")
