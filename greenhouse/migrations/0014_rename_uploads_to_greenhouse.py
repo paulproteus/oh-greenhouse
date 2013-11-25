@@ -2,6 +2,7 @@
 import datetime
 from south.db import db
 from south.v2 import SchemaMigration
+import django.db
 from django.db import models
 from django.db.models import get_app, get_models
 
@@ -26,12 +27,20 @@ class Migration(SchemaMigration):
                 if model._meta.proxy == True or (hasattr(model, 'connection_name') and model.connection_name == 'udd'):
                     continue
 
-                old_table_name = model._meta.db_table
+                old_table_name = model._meta.db_table.replace(new_appname,
+                                                              old_appname)
                 model_name = old_table_name.split('_')[1]
                 new_table_name = ''.join([new_appname, '_', model_name])
-
-                db.rename_table(old_table_name, new_table_name)                                                                                                                        
-        
+                if old_table_name not in django.db.connection.introspection.table_names():
+                    if old_table_name == 'uploads_person':
+                        old_table_name = 'people'
+                        new_table_name = 'greenhouse_people'
+                    elif old_table_name == 'uploads_activity':
+                        old_table_name = 'uploads'
+                        new_table_name = 'greenhouse_uploads'
+                    else:
+                        raise ValueError("I have no idea how to convert that table.")
+                db.rename_table(old_table_name, new_table_name)
 
     def backwards(self, orm):
 
@@ -166,4 +175,4 @@ class Migration(SchemaMigration):
     }
 
     complete_apps = ['greenhouse']                                                                                                                     
-            
+
