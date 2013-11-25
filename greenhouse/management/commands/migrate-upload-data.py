@@ -27,13 +27,13 @@ class Command(NoArgsCommand):
         exclude_emails = self.get_debian_emails()
         person_set = set(Person.objects.values_list('email', flat=True))
         for u in UDD.objects.values_list('changed_by_name', 'changed_by_email').distinct():
-            email = u.changed_by_email
+            name, email = u
             if email not in person_set:
                 control_group = True if random.randint(1,10) > 8 else False
                 exclude = True if (email in exclude_emails or 
                                re.search(r"@debian\.org", email)) else False
                 person = Person(email=email,
-                                name=u.changed_by_name,
+                                name=name,
                                 control_group=control_group,
                                 exclude=exclude,
                                 authoritative_person=None
