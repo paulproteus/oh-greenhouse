@@ -34,6 +34,7 @@ setup(
         'django-openid-auth',
         'python-openid',
         'distro-info',
+        'django-debug-toolbar',
         ],
     data_files=[
         ('', ["EXTERNALS", "INSTALL", "LICENSE", "README.rst"]),
